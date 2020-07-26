@@ -13,7 +13,7 @@ public class Board {
 	 * @param x position on the board
 	 * @param y position on the board
 	 * @param player the character to be placed
-	 * @return boolean if the move is valid an has been done
+	 * @return a boolean if the move is valid an has been done
 	 */
 	private boolean move(int x, int y, char player){
 		if (x >= width || y >= height)
@@ -27,7 +27,7 @@ public class Board {
 
 	/**
 	 * Checks if one of the player has won
-	 * @return if a player has how the character of that player else 0
+	 * @return a boolean of if a player has how the character of that player else 0
 	 */
 	public static char checkWin(char[][] cells){
 		for (int i = 0; i < 3; i++) {
@@ -65,11 +65,13 @@ public class Board {
 		return true;
 	}
 
+	//helper function for the minmax function
+	//	the win is weighted so the fastest win will always be chosen
 	private int evalPosition(char[][] position,int depth, boolean isMax){
 		if (Board.checkWin(position) == 'x')
-			return 1 - depth;
+			return 10 -depth;
 		else if(Board.checkWin(position) == 'o')
-			return -1 - depth;
+			return -10 -depth;
 		else if(!Board.isEmptyCell(position))
 			return 0;
 
@@ -101,9 +103,13 @@ public class Board {
 		return max;
 	}
 
+	/**
+	 * Assesses the board and chooses the optimal move for the fastest win
+	 * @return a int[] with the {x, y} coordinates of the optimal move
+	 */
 	public int[] minMax(){
 		int max;
-		int best = -2;
+		int best = -100;
 		int[] move  = null;
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[0].length; j++) {
@@ -121,21 +127,26 @@ public class Board {
 		return move;
 	}
 
+
+	/**
+	 * Concatenates the tictactoe board to a more readable format
+	 * @return a string of the readable format of the board
+	 */
 	private String prettyPrint(){
-		String temp = "";
-		temp+="_______\n";
+		StringBuilder temp = new StringBuilder();
+		temp.append("_______\n");
 		for (int i = 0; i < cells.length; i++) {
-			temp+="|";
+			temp.append("|");
 			for (int j = 0; j < cells[0].length; j++) {
 				if(cells[j][i] == 0)
-					temp += "0|";
+					temp.append("0|");
 				else
-					temp+=cells[j][i] + "|";
+					temp.append(cells[j][i] + "|");
 			}
-			temp+="\n";
+			temp.append("\n");
 		}
-		temp+="¯¯¯¯¯¯¯";
-		return temp;
+		temp.append("¯¯¯¯¯¯¯");
+		return temp.toString();
 	}
 
 	@Override
@@ -145,13 +156,14 @@ public class Board {
 
 	public static void main(String[] args) {
 		Board test = new Board();
-		test.move(1, 0, 'x');
+		test.move(0,0, 'o');
 		test.move(1, 1, 'x');
-		test.move(1, 2, 'o');
-		test.move(2, 2, 'o');
-		test.move(0, 2, 'x');
-		test.move(0, 0, 'o');
+		test.move(2,0, 'o');
+		test.move(1, 0, 'x');
+
+
 		System.out.println(test);
+		System.out.println(test.prettyPrint());
 		System.out.println(Arrays.toString(test.minMax()));
 	}
 }
