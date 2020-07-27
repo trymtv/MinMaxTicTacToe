@@ -1,4 +1,4 @@
-package tictactoe;
+package com.github.TrymTv;
 
 import java.util.Arrays;
 
