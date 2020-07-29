@@ -1,4 +1,4 @@
-package com.github.TrymTv;
+package com.github.trymtv;
 
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class Board {
 	 * @param player the character to be placed
 	 * @return a boolean if the move is valid an has been done
 	 */
-	private boolean move(int x, int y, char player){
+	public boolean move(int x, int y, char player){
 		if (x >= width || y >= height)
 			throw new IllegalArgumentException("Index not in range.");
 		if (cells[x][y] == 0){

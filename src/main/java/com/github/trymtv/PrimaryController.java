@@ -1,4 +1,4 @@
-package com.github.TrymTv;
+package com.github.trymtv;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
