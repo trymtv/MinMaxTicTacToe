@@ -4,10 +4,8 @@ import java.util.Arrays;
 
 public class Board {
 	private final int width = 3, height = 3;
-	private final char player1 = 'x', player2 = 'o';
 
 	private char[][] cells = new char[width][height];
-
 
 	/**
 	 * @param x position on the board
@@ -29,7 +27,7 @@ public class Board {
 	 * Checks if one of the player has won
 	 * @return a boolean of if a player has how the character of that player else 0
 	 */
-	public static char checkWin(char[][] cells){
+	private static char checkWin(char[][] cells){
 		for (int i = 0; i < 3; i++) {
 			if (compareEqualCells(cells[i]))
 				return cells[i][0];
@@ -43,6 +41,10 @@ public class Board {
 		return 0;
 	}
 
+	public char checkWin(){
+		return Board.checkWin(this.cells);
+	}
+
 	public static boolean isEmptyCell(char[][] cells){
 		for (char[] cellRow : cells) {
 			for (char cell :cellRow) {
@@ -53,8 +55,13 @@ public class Board {
 		return false;
 	}
 
+	public boolean isEmptyCell(){
+		return Board.isEmptyCell(this.cells);
+	}
+
 
 	//helper function for comparing that given characters are equal
+
 	private static boolean compareEqualCells(char... cells){
 		if(cells[0] == 0)
 			return false;
@@ -64,25 +71,24 @@ public class Board {
 		}
 		return true;
 	}
-
 	//helper function for the minmax function
 	//	the win is weighted so the fastest win will always be chosen
+
 	private int evalPosition(char[][] position,int depth, boolean isMax){
-		if (Board.checkWin(position) == 'x')
+		if (Board.checkWin(position) == player1)
 			return 10 -depth;
-		else if(Board.checkWin(position) == 'o')
+		else if(Board.checkWin(position) == player2)
 			return -10 -depth;
 		else if(!Board.isEmptyCell(position))
 			return 0;
 
-		int[] move;
 		int max;
 		if(isMax){
 			max = -100;
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position[0].length; j++) {
 					if (position[i][j] == 0){
-						position[i][j] = 'x';
+						position[i][j] = player1;
 						max = Math.max(max, evalPosition(position,depth+1, !isMax));
 						position[i][j] = 0;
 					}
@@ -93,7 +99,7 @@ public class Board {
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position[0].length; j++) {
 					if (position[i][j] == 0){
-						position[i][j] = 'o';
+						position[i][j] = player2;
 						max = Math.min(max, evalPosition(position,depth+1, !isMax));
 						position[i][j] = 0;
 					}
@@ -103,18 +109,22 @@ public class Board {
 		return max;
 	}
 
+	private char player1 = 'x', player2 = 'o';
+
 	/**
 	 * Assesses the board and chooses the optimal move for the fastest win
 	 * @return a int[] with the {x, y} coordinates of the optimal move
 	 */
-	public int[] minMax(){
+	public int[] minMax(char player1, char player2){
+		this.player1 = player1;
+		this.player2 = player2;
 		int max;
 		int best = -100;
 		int[] move  = null;
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[0].length; j++) {
 				if (cells[i][j] == 0){
-					cells[i][j] = 'x';
+					cells[i][j] = player1;
 					max = evalPosition(cells,0, false);
 					cells[i][j] = 0;
 					if(max > best) {
@@ -164,6 +174,6 @@ public class Board {
 
 		System.out.println(test);
 		System.out.println(test.prettyPrint());
-		System.out.println(Arrays.toString(test.minMax()));
+		System.out.println(Arrays.toString(test.minMax('o', 'x')));
 	}
 }

@@ -18,18 +18,21 @@ public class BoardDrawer {
 		context = canvas.getGraphicsContext2D();
 		width = canvas.getWidth();
 		height = canvas.getHeight();
-		spacing = width / 3 + 4;
+		spacing = width / 3;
 	}
 
 	public void drawPlayer(char player, int x, int y){
 		if(player == 'x')
-			context.drawImage(xIcon, x * spacing, y*spacing);
+			context.drawImage(xIcon, x *spacing +6, y*spacing +6);
 		else if(player == 'o'){
-			context.drawImage(oIcon, x *spacing, y*spacing);
+			context.drawImage(oIcon, x *spacing +6, y*spacing +6);
 		}else{
 			throw new IllegalArgumentException("Not a valid player character");
 		}
 	}
 
+	public void drawWin(char winner){
+		System.out.println(winner);
+	}
 
 }

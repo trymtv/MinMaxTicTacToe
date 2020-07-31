@@ -13,6 +13,7 @@
             <Font name="Bodoni MT" size="33.0" />
          </font></Label>
       <Button fx:id="primaryButton" onAction="#switchToSecondary" prefHeight="25.0" prefWidth="83.0" text="Play" textAlignment="CENTER" />
+      <Button fx:id="primaryButton1" onAction="#switchToAI" prefHeight="25.0" prefWidth="83.0" text="Play Vs Ai" textAlignment="CENTER" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
