@@ -68,6 +68,7 @@ public class SecondaryController {
         boardCanvas.getGraphicsContext2D().clearRect(0,0, boardCanvas.getWidth(), boardCanvas.getHeight());
         winLabel.setVisible(false);
         boardCanvas.setOnMouseClicked(this::clickMove);
+        moveMinMax();
     }
 
 }
